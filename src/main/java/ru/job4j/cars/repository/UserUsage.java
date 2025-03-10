@@ -8,33 +8,31 @@ import ru.job4j.cars.model.User;
 
 public class UserUsage {
 
-    public static void main(String[] args) {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure("hibernate.cfg.xml").build();
-        try (SessionFactory sf = new MetadataSources(registry)
-                .buildMetadata().buildSessionFactory()) {
-            var userRepository = new UserRepository(sf);
-            var user = new User();
-            user.setLogin("admin");
-            user.setPassword("admin");
-            userRepository.create(user);
-            userRepository.findAllOrderById()
-                    .forEach(System.out::println);
-            userRepository.findByLikeLogin("e")
-                    .forEach(System.out::println);
-            userRepository.findById(user.getId())
-                    .ifPresent(System.out::println);
-            userRepository.findByLogin("admin")
-                    .ifPresent(System.out::println);
-            user.setPassword("password");
-            userRepository.update(user);
-            userRepository.findById(user.getId())
-                    .ifPresent(System.out::println);
-            userRepository.delete(user.getId());
-            userRepository.findAllOrderById()
-                    .forEach(System.out::println);
-        } finally {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
-    }
+	public static void main(String[] args) {
+		StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+				.configure("hibernate.cfg.xml").build();
+		try (SessionFactory sf = new MetadataSources(registry)
+				.buildMetadata().buildSessionFactory()) {
+			var crudRepository = new CrudRepository(sf);
+			var userRepository = new UserRepository(crudRepository);
+			var user = new User();
+			user.setLogin("admin");
+			user.setPassword("admin");
+//            userRepository.create(user);
+			userRepository.findAllOrderById()
+					.forEach(System.out::println);
+			userRepository.findByLikeLogin("e")
+					.forEach(System.out::println);
+			userRepository.findById(user.getId())
+					.ifPresent(System.out::println);
+			var optUser = userRepository.findByLogin("admin");
+			user = optUser.get();
+			optUser.ifPresent(System.out::println);
+			userRepository.delete(user.getId());
+			userRepository.findAllOrderById()
+					.forEach(System.out::println);
+		} finally {
+			StandardServiceRegistryBuilder.destroy(registry);
+		}
+	}
 }
