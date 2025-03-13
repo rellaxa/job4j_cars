@@ -22,13 +22,21 @@ public class Post {
 
 	private String description;
 
-	private LocalDateTime created;
+	private LocalDateTime created = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "auto_user_id")
 	private User user;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "post_id")
 	private List<PriceHistory> priceHistory = new ArrayList<>();
+
+	@ManyToMany
+	@JoinTable(
+			name = "participates",
+			joinColumns = { @JoinColumn(name = "post_id") },
+			inverseJoinColumns = { @JoinColumn(name = "user_id") }
+	)
+	private List<User> subscribers = new ArrayList<>();
 }
