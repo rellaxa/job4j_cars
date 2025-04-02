@@ -28,6 +28,10 @@ public class Post {
 	@JoinColumn(name = "auto_user_id")
 	private User user;
 
+	@ManyToOne
+	@JoinColumn(name = "car_id", foreignKey = @ForeignKey(name = "CAR_ID_FK"))
+	private Car car;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "post_id")
 	private List<PriceHistory> priceHistory = new ArrayList<>();
@@ -39,4 +43,5 @@ public class Post {
 			inverseJoinColumns = { @JoinColumn(name = "user_id") }
 	)
 	private List<User> subscribers = new ArrayList<>();
+
 }
