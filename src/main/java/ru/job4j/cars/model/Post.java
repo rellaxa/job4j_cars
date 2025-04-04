@@ -34,6 +34,10 @@ public class Post {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "post_id")
+	private List<File> photos = new ArrayList<>();
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "post_id")
 	private List<PriceHistory> priceHistory = new ArrayList<>();
 
 	@ManyToMany
