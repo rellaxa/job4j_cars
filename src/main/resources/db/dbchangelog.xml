@@ -18,4 +18,5 @@
     <include file="scripts/013_ddl_create_car_brands_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/014_ddl_alter_cars_addCarBrand.sql" relativeToChangelogFile="true"/>
     <include file="scripts/015_ddl_create_files_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/016_ddl_alter_history_owner_addTime.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

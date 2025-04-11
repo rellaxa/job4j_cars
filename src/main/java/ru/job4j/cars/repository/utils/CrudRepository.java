@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class CrudRepository {
 		);
 	}
 
-	public boolean run(String query, Map<String, Object> args) {
+	public boolean runWithRsl(String query, Map<String, Object> args) {
 		Function<Session, Boolean> command = session -> {
 			var sq = session
 					.createQuery(query);

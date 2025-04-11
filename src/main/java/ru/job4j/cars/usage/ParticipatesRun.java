@@ -1,4 +1,4 @@
-package ru.job4j.cars;
+package ru.job4j.cars.usage;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,32 +8,34 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.PriceHistory;
 import ru.job4j.cars.model.User;
+import ru.job4j.cars.repository.PostRepository;
+import ru.job4j.cars.repository.UserRepository;
+import ru.job4j.cars.repository.implementation.HBNPostRepository;
+import ru.job4j.cars.repository.implementation.HBNUserRepository;
+import ru.job4j.cars.repository.utils.CrudRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ParticipatesRun {
 
+	private static UserRepository userRepository;
+
+	private static PostRepository postRepository;
+
 	public static void main(String[] args) {
 		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 				.configure().build();
 		try {
 			SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+			userRepository = new HBNUserRepository(new CrudRepository(sf));
+			postRepository = new HBNPostRepository(new CrudRepository(sf));
 
-			var ownerPostUser = new User();
-			ownerPostUser.setLogin("Owner");
-			ownerPostUser.setPassword("password");
-			create(ownerPostUser, sf);
+			var ownerPostUser = userRepository.findByLoginAndPassword("Owner", "password").get();
 
-			var firstUser = new User();
-			firstUser.setLogin("First");
-			firstUser.setPassword("password");
-			create(firstUser, sf);
+			var firstUser = userRepository.findByLoginAndPassword("First", "password").get();
 
-			var secondUser = new User();
-			secondUser.setLogin("Second");
-			secondUser.setPassword("password");
-			create(secondUser, sf);
+			var secondUser = userRepository.findByLoginAndPassword("Second", "password").get();
 
 			var subscribers = List.of(firstUser, secondUser);
 

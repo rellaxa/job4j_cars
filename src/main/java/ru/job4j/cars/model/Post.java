@@ -1,7 +1,6 @@
 package ru.job4j.cars.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
@@ -13,6 +12,9 @@ import java.util.List;
 @Table(name = "auto_post")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Post {
 
 	@Id
@@ -22,6 +24,8 @@ public class Post {
 
 	private String description;
 
+	@Builder.Default
+	@Column(name = "created")
 	private LocalDateTime created = LocalDateTime.now();
 
 	@ManyToOne

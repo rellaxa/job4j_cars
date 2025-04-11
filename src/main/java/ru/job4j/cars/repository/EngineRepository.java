@@ -1,42 +1,19 @@
 package ru.job4j.cars.repository;
 
-import lombok.AllArgsConstructor;
 import ru.job4j.cars.model.Engine;
-import ru.job4j.cars.repository.utils.CrudRepository;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 import java.util.Optional;
 
-@AllArgsConstructor
-public class EngineRepository {
+public interface EngineRepository {
 
-	private final CrudRepository crudRepository;
+	Engine save(Engine engine);
 
-	public Engine create(Engine engine) {
-		crudRepository.run(session -> session.persist(engine));
-		return engine;
-	}
+	Optional<Engine> findById(int engineId);
 
-	public void update(Engine engine) {
-		crudRepository.run(session -> session.merge(engine));
-	}
+	Collection<Engine> findAllOrderById();
 
-	public void delete(int engineId) {
-		crudRepository.run(
-				"delete from Engine where id = :fId",
-				Map.of("fId", engineId)
-		);
-	}
+	boolean deleteById(int engineId);
 
-	public List<Engine> findAllOrderById() {
-		return crudRepository.query("from Engine order by id asc", Engine.class);
-	}
-
-	public Optional<Engine> findById(int engineId) {
-		return crudRepository.optional(
-				"from Engine where id = :fId", Engine.class,
-				Map.of("fId", engineId)
-		);
-	}
+	boolean deleteAll();
 }
