@@ -5,3 +5,4 @@ create table files
     path    varchar NOT NULL unique,
     post_id int NOT NULL references auto_post(id)
 );
+
