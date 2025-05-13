@@ -38,7 +38,7 @@ class HBNOwnerRepositoryTest {
 
 	@BeforeEach
 	void updateUserStorage() {
-		user = new User(0, "Login", "Password");
+		user = new User(0, "Name", "Login", "Password");
 		userRepository.save(user);
 	}
 
@@ -75,7 +75,7 @@ class HBNOwnerRepositoryTest {
 		Owner owner = new Owner(0, "one", user);
 		repository.save(owner);
 		int id = owner.getId();
-		boolean deleted = repository.delete(id);
+		boolean deleted = repository.deleteById(id);
 		assertThat(deleted).isTrue();
 		assertThat(repository.findById(id)).isEmpty();
 	}
@@ -85,7 +85,7 @@ class HBNOwnerRepositoryTest {
 		Owner owner = new Owner(0, "one", user);
 		repository.save(owner);
 		int id = owner.getId();
-		boolean deleted = repository.delete(id + 1000);
+		boolean deleted = repository.deleteById(id + 1000);
 		assertThat(deleted).isFalse();
 		assertThat(repository.findById(id)).isPresent();
 	}

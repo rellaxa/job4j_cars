@@ -7,7 +7,6 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.PriceHistory;
-import ru.job4j.cars.model.User;
 import ru.job4j.cars.repository.PostRepository;
 import ru.job4j.cars.repository.UserRepository;
 import ru.job4j.cars.repository.implementation.HBNPostRepository;
@@ -16,6 +15,7 @@ import ru.job4j.cars.repository.utils.CrudRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class ParticipatesRun {
 
@@ -37,7 +37,7 @@ public class ParticipatesRun {
 
 			var secondUser = userRepository.findByLoginAndPassword("Second", "password").get();
 
-			var subscribers = List.of(firstUser, secondUser);
+			var participates = Set.of(firstUser, secondUser);
 
 			var post = new Post();
 			post.setUser(ownerPostUser);
@@ -46,7 +46,7 @@ public class ParticipatesRun {
 					new PriceHistory(0, 1000, 2000, LocalDateTime.now()),
 					new PriceHistory(0, 2000, 3000, LocalDateTime.now())
 			));
-			post.setSubscribers(subscribers);
+			post.setParticipates(participates);
 			create(post, sf);
 			var foundPost = sf.openSession()
 					.createQuery("from Post where id = :fId", Post.class)

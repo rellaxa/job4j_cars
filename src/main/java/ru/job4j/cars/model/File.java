@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "files")
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class File {
@@ -23,7 +23,4 @@ public class File {
 	private String name;
 
 	private String path;
-
-	@Column(name = "post_id")
-	private int postId;
 }

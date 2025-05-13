@@ -13,6 +13,10 @@ public interface EngineRepository {
 
 	Collection<Engine> findAllOrderById();
 
+	Optional<Integer> findEngineIdByCarId(int carId);
+
+	boolean update(Engine engine);
+
 	boolean deleteById(int engineId);
 
 	boolean deleteAll();

@@ -15,7 +15,10 @@
         <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
 
         <mapping class="ru.job4j.cars.model.Car" />
+        <mapping class="ru.job4j.cars.model.CarBody" />
         <mapping class="ru.job4j.cars.model.CarBrand" />
+        <mapping class="ru.job4j.cars.model.City" />
+        <mapping class="ru.job4j.cars.model.Classification" />
         <mapping class="ru.job4j.cars.model.Engine" />
         <mapping class="ru.job4j.cars.model.File" />
         <mapping class="ru.job4j.cars.model.HistoryOwner" />

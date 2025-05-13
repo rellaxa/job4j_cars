@@ -33,7 +33,7 @@ public class UserUsage {
 			user = optUser.get();
 			optUser.ifPresent(System.out::println);
 
-			userRepository.delete(user.getId());
+			userRepository.deleteById(user.getId());
 			userRepository.findAllOrderById()
 					.forEach(System.out::println);
 		} finally {

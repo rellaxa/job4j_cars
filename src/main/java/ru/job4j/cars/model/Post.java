@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode.Include;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "auto_post")
@@ -15,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Post {
 
 	@Id
@@ -24,9 +27,10 @@ public class Post {
 
 	private String description;
 
-	@Builder.Default
+	private boolean status;
+
 	@Column(name = "created")
-	private LocalDateTime created = LocalDateTime.now();
+	private LocalDateTime created;
 
 	@ManyToOne
 	@JoinColumn(name = "auto_user_id")
@@ -36,20 +40,26 @@ public class Post {
 	@JoinColumn(name = "car_id", foreignKey = @ForeignKey(name = "CAR_ID_FK"))
 	private Car car;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "post_id")
-	private List<File> photos = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "city_id")
+	private City city;
 
 	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "post_id")
+	@ToString.Exclude
+	private List<File> photos = new ArrayList<>();
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "post_id")
 	private List<PriceHistory> priceHistory = new ArrayList<>();
 
 	@ManyToMany
+	@ToString.Exclude
 	@JoinTable(
 			name = "participates",
 			joinColumns = { @JoinColumn(name = "post_id") },
 			inverseJoinColumns = { @JoinColumn(name = "user_id") }
 	)
-	private List<User> subscribers = new ArrayList<>();
+	private Set<User> participates = new HashSet<>();
 
 }

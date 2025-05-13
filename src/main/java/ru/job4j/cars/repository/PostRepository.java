@@ -10,17 +10,21 @@ public interface PostRepository {
 
 	Post save(Post post);
 
-	boolean update(Post post);
-
-	boolean delete(int postId);
-
 	Optional<Post> findById(int postId);
 
 	Collection<Post> findAllOrderById();
 
 	Collection<Post> findAllPostsByLastDay(LocalDateTime from, LocalDateTime to);
 
+	Collection<Post> findAllPostsByBrand(String brand);
+
 	Collection<Post> findPostsWithPhoto();
 
-	Collection<Post> findAllPostsByBrand(String brand);
+	boolean update(Post post);
+
+	boolean switchStatusByUser(int id, int userId, boolean status);
+
+	int deleteByIdAndUser(int postId, int userId);
+
+	boolean delete(int postId);
 }

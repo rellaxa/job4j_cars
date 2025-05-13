@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<div th:replace="~{fragments/header :: header}"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Post details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card-task {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            transform: none !important;
+            transition: none !important;
+        }
+
+        .car-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Белые стрелки */
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Ограничение размера карусели */
+        .carousel {
+            max-height: 600px; /* Уменьшенная высота карусели */
+            overflow: hidden;
+        }
+
+        .carousel-inner img {
+            object-fit: contain; /* Сохраняет пропорции изображения */
+            max-height: 600px; /* Соответствует высоте карусели */
+            width: auto; /* Ширина подстраивается автоматически */
+            margin: auto; /* Центрирование изображения */
+        }
+
+        .details-list li {
+            margin-bottom: 0.50rem; /* отступ между пунктами списка */
+        }
+
+        .card-footer {
+            background-color: #e6e6e6;
+        }
+
+        .table-wrapper {
+            border: 1px solid #dee2e6; /* Добавляем рамку для визуального отделения */
+            border-radius: 0.25rem;
+        }
+
+        .table th {
+            box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.1); /* Тень для заголовков */
+        }
+
+        .table td, .table th {
+            white-space: nowrap; /* Запрет переноса текста */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #postCarousel .carousel-item {
+            transition: none !important;
+        }
+        #postCarousel .carousel-inner {
+            scroll-behavior: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+<!-- Навигационное меню -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Cars</a>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav me-auto">
+                <a class="nav-item nav-link active" th:href="@{/posts}">Posts</a>
+            </div>
+        </div>
+        <div class="d-flex" th:if="${user.name == 'Гость'}">
+            <a class="nav-link text-secondary me-3" th:href="@{/users/register}">Sign up</a>
+            <a class="nav-link text-secondary" th:href="@{/users/login}">Login</a>
+        </div>
+        <div class="d-flex" th:if="${user.name != 'Гость'}">
+            <a class="nav-link text-secondary me-3" href="#" th:text="${user.name}"></a>
+            <a class="nav-link text-secondary" th:href="@{/users/logout}">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="card card-task">
+        <div class="card-body">
+
+            <!-- ========== ШАПКА: НАЗВАНИЕ + ЦЕНА ========== -->
+            <div class="d-flex justify-content-between align-items-baseline mb-3">
+                <h1 class="car-title mb-0" th:text="${post.car.name}">Car Name</h1>
+                <h2 class="car-title mb-0"
+                    th:text="${post.priceHistory.last.before} + ' ₽'">
+                    27 900 000 ₽
+                </h2>
+            </div>
+
+            <!-- ========== INFO + КАРУСЕЛЬ ========== -->
+            <div class="row">
+                <!-- Левая колонка: информация -->
+                <div class="col-md-4">
+                    <ul class="list-unstyled details-list">
+                        <li><strong>Mark:</strong> <span th:text="${post.car.brand.name}">Brand</span></li>
+                        <li><strong>Class:</strong> <span th:text="${post.car.classCar.name}">Class</span></li>
+                        <li><strong>Body type:</strong> <span th:text="${post.car.body.name}">Body</span></li>
+                        <li><strong>Engine:</strong> <span th:text="${post.car.engine.name}">Engine</span></li>
+                        <li><strong>City:</strong> <span th:text="${post.city.name}">City</span></li>
+                        <li>
+                            <strong>Status:</strong>
+                            <span th:if="${post.status}" class="badge bg-danger badge-status">Sold</span>
+                            <span th:if="${!post.status}" class="badge bg-success badge-status">For sale</span>
+                        </li>
+                        <li><strong>Owner:</strong> <span th:text="${post.user.name}">Owner</span></li>
+                        <li>
+                            <strong>Post created:</strong>
+                            <span th:text="${#temporals.format(post.created, 'dd.MM.yyyy HH:mm')}">Created</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Правая колонка: карусель -->
+                <div class="col-md-8">
+                    <div id="postCarousel"
+                         class="carousel slide"
+                         data-bs-wrap="true"
+                         data-bs-interval="false"
+                         data-bs-touch="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item"
+                                 th:each="file, iterStat : ${files}"
+                                 th:classappend="${iterStat.index == 0} ? ' active'">
+                                <img th:src="@{/files/{id}(id=${file.id})}"
+                                     class="d-block w-100" alt="Фото">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                                data-bs-target="#postCarousel"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Назад</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                                data-bs-target="#postCarousel"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Вперёд</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== ОПИСАНИЕ ========== -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h5>Description</h5>
+                    <p th:text="${post.description}">Full desc</p>
+                </div>
+            </div>
+
+            <!-- Новая таблица истории цен -->
+            <div class="row mt-4">
+                <div class="col-6">
+                    <h5>History prices</h5>
+                    <!-- Обертка для таблицы с ограничением высоты и скроллом -->
+                    <div class="table-wrapper" style="max-height: 200px; overflow-y: auto;">
+                        <table class="table table-sm" style="table-layout: fixed;">
+                            <thead>
+                            <tr>
+                                <th style="position: sticky; top: 0; background: white; width: 50%;">Price</th>
+                                <th style="position: sticky; top: 0; background: white; width: 50%;">Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="ph : ${post.priceHistory}">
+                                <td th:text="${ph.before} + ' ₽'">0 ₽</td>
+                                <td th:text="${#temporals.format(ph.created,'dd.MM.yyyy HH:mm')}">01.01.2025 12:00
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <h5>History owners</h5>
+                    <div class="table-wrapper" style="max-height: 200px; overflow-y: auto;">
+                        <table class="table table-sm" style="table-layout: fixed;">
+                            <thead>
+                            <tr>
+                                <th style="position: sticky; top: 0; background: white; width: 32%;">Owner</th>
+                                <th style="position: sticky; top: 0; background: white; width: 34%;">Start at</th>
+                                <th style="position: sticky; top: 0; background: white; width: 34%;">End at</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="ho : ${historyOwners}">
+                                <td th:text="${ho.owner.name}">Owner</td>
+                                <td th:text="${#temporals.format(ho.startAt,'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</td>
+                                <td th:text="${#temporals.format(ho.endAt,'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-footer" th:if="${post.user.id == user.id}">
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <a class="btn btn-outline-danger btn-custom w-100"
+                       th:href="@{/posts/delete/{id}(id=${post.id})}">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-outline-secondary btn-custom w-100"
+                       th:href="@{/posts/update/{id}(id=${post.id})}">
+                        <i class="bi bi-pencil"></i> Edit
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-custom w-100" th:if="${post.status}"
+                       th:classappend="' btn-success'"
+                       th:href="@{/posts/switchStatus/{id}/{status} (id=${post.id}, status=${!post.status})}">
+                        <i class="bi bi-check-circle"></i> For sale
+                    </a>
+                    <a class="btn btn-custom w-100" th:if="${!post.status}"
+                       th:classappend="' btn-outline-primary'"
+                       th:href="@{/posts/switchStatus/{id}/{status} (id=${post.id}, status=${!post.status})}">
+                        <i class="bi bi-x-circle"></i> Sold
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-center" th:if="${post.user.id != user.id}">
+            <a class="btn btn-success btn-custom w-100"
+               th:href="@{/posts/buy/{id}(id=${post.id})}">
+                <i class="bi bi-cart3"></i> Buy Car
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

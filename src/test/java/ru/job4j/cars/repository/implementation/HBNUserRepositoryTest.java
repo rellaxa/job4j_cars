@@ -35,7 +35,7 @@ class HBNUserRepositoryTest {
 
 	@Test
 	void whenSaveNewUserThenReturnSavedUser() {
-		User newUser = new User(0, "Login", "Password");
+		User newUser = new User(0, "Name", "Login", "Password");
 		Optional<User> savedUser = repository.save(newUser);
 		assertThat(savedUser).isPresent();
 		assertThat(savedUser.get().getLogin()).isEqualTo("Login");
@@ -43,7 +43,7 @@ class HBNUserRepositoryTest {
 
 	@Test
 	void whenSaveNewUserWithTheSameLoginThenReturnEmpty() {
-		User user = new User(0, "Login", "Password");
+		User user = new User(0, "Name", "Login", "Password");
 		repository.save(user);
 		Optional<User> savedUser = repository.save(user);
 		assertThat(savedUser).isEmpty();
@@ -51,7 +51,7 @@ class HBNUserRepositoryTest {
 
 	@Test
 	void whenUpdateExistingUserThenReturnUpdatedUser() {
-		User user = new User(0, "Login", "Password");
+		User user = new User(0, "Name", "Login", "Password");
 		Optional<User> savedUser = repository.save(user);
 		user.setLogin("Update");
 		boolean updated = repository.update(user);
@@ -61,9 +61,9 @@ class HBNUserRepositoryTest {
 
 	@Test
 	void whenSaveUsersThenFindAllUsers() {
-		User one = new User(0, "One", "Password");
-		User two = new User(0, "Two", "Password");
-		User three = new User(0, "Three", "Password");
+		User one = new User(0, "Name", "One", "Password");
+		User two = new User(0, "Name", "Two", "Password");
+		User three = new User(0, "Name", "Three", "Password");
 		repository.save(one);
 		repository.save(two);
 		repository.save(three);
@@ -77,16 +77,16 @@ class HBNUserRepositoryTest {
 
 	@Test
 	void whenDeleteExistingUserThenTrue() {
-		User user = new User(0, "Login", "Password");
+		User user = new User(0, "Name", "Login", "Password");
 		repository.save(user);
-		boolean deleted = repository.delete(user.getId());
+		boolean deleted = repository.deleteById(user.getId());
 		assertThat(deleted).isTrue();
 		assertThat(repository.findById(user.getId())).isEmpty();
 	}
 
 	@Test
 	void whenFindByLoginAndPasswordThenReturnUser() {
-		User user = new User(0, "Login", "Password");
+		User user = new User(0, "Name", "Login", "Password");
 		repository.save(user);
 		Optional<User> foundUser = repository.findByLoginAndPassword(user.getLogin(), user.getPassword());
 		assertThat(foundUser).isPresent();

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}">
+    <title>Error</title>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
+<div class="container mt-5">
+    <div class="alert alert-danger shadow" role="alert">
+        <h4 class="alert-heading">Oh, there's been a mistake.</h4>
+        <p th:text="${error}">Неизвестная ошибка</p>
+        <hr>
+        <p class="mb-0">Please try again later or contact customer support.</p>
+    </div>
+</div>
+</body>
+</html>

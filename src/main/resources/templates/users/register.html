@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{fragments/header :: header}"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <style>
+        .card {
+            transition: none !important;
+        }
+        .card:hover {
+            transform: none !important;
+        }
+        /* Центрированная карточка регистрации */
+        .registration-card {
+            max-width: 500px;
+            margin: 50px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .registration-card .card-header {
+            background-color: #007bff; /* Синий оттенок */
+            color: #fff;
+            text-align: center;
+            font-size: 1.5rem;
+            padding: 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .registration-card .card-body {
+            padding: 30px;
+        }
+        .registration-card .card-footer {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<!-- Верхнее меню (navbar) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/" th:href="@{/}">Cars</a>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav me-auto">
+                <a class="nav-item nav-link" th:href="@{/posts}">Posts</a>
+            </div>
+        </div>
+        <div class="d-flex">
+            <a class="nav-link text-light me-3" th:href="@{/users/register}">Sign up</a>
+            <a class="nav-link text-secondary" th:href="@{/users/login}">Login</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Карточка регистрации -->
+<div class="container">
+    <div class="registration-card card mt-5">
+        <div class="card-header">
+            Registration
+        </div>
+        <div class="card-body">
+            <form th:action="@{/users/register}" method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label"><b>Name</b></label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Иван" required>
+                </div>
+                <div class="mb-3">
+                    <label for="login" class="form-label"><b>Login</b></label>
+                    <input type="text" class="form-control" id="login" name="login" placeholder="relaxa" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label"><b>Password</b></label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6"><a class="btn btn-outline-danger w-100"
+                                                  th:href="@{/posts}">Cansel</a></div>
+                            <div class="col-6"><button class="btn btn-primary w-100"
+                                                       type="submit">Sign up</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

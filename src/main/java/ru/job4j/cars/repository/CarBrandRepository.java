@@ -9,11 +9,11 @@ public interface CarBrandRepository {
 
 	CarBrand save(CarBrand carBrand);
 
-	boolean deleteById(int id);
-
-	boolean deleteAll();
+	Optional<CarBrand> findById(int id);
 
 	Collection<CarBrand> findAll();
 
-	Optional<CarBrand> findById(int id);
+	boolean deleteById(int id);
+
+	boolean deleteAll();
 }

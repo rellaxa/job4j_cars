@@ -5,18 +5,26 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <include file="scripts/001_ddl_create_auto_user_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002_ddl_create_auto_post_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/003_dml_insert_auto_user_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_create_participates_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_create_engine_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007_ddl_create_car_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/008_ddl_create_owners_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/009_ddl_create_history_owner_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/010_ddl_create_history_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011_ddl_alter_auto_post_addCar.sql" relativeToChangelogFile="true"/>
     <include file="scripts/012_ddl_alter_cars_addName.sql" relativeToChangelogFile="true"/>
     <include file="scripts/013_ddl_create_car_brands_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/014_ddl_alter_cars_addCarBrand.sql" relativeToChangelogFile="true"/>
     <include file="scripts/015_ddl_create_files_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/016_ddl_alter_history_owner_addTime.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/017_ddl_create_classification_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/018_ddl_create_car_body_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/019_ddl_alter_cars_addClassCar_addCarBody.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/020_dml_insert_car_bodies_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/021_dml_insert_classes_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/022_ddl_alter_auto_post_addStatus.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/023_dml_insert_car_brands_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/024_ddl_create_cities_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/025_dml_insert_cities_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/026_ddl_alter_auto_post_addCity.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

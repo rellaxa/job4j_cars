@@ -9,17 +9,17 @@ public interface UserRepository {
 
 	Optional<User> save(User user);
 
-	boolean update(User user);
-
-	boolean delete(int userId);
-
-	boolean deleteAll();
-
-	Collection<User> findAllOrderById();
-
 	Optional<User> findById(int userId);
 
 	Collection<User> findByLikeLogin(String key);
 
+	Collection<User> findAllOrderById();
+
 	Optional<User> findByLoginAndPassword(String login, String password);
+
+	boolean update(User user);
+
+	boolean deleteById(int userId);
+
+	boolean deleteAll();
 }

@@ -1,8 +1,6 @@
 package ru.job4j.cars.model;
 
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -30,11 +28,19 @@ public class Car {
 	private CarBrand brand;
 
 	@ManyToOne
+	@JoinColumn(name = "class_car_id")
+	private Classification classCar;
+
+	@ManyToOne
+	@JoinColumn(name = "body_id")
+	private CarBody body;
+
+	@ManyToOne
 	@JoinColumn(name = "engine_id", foreignKey = @ForeignKey(name = "ENGINE_ID_FK"))
 	private Engine engine;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "car_id")
+	@ToString.Exclude
 	private Set<HistoryOwner> ownersHistory = new HashSet<>();
 }
